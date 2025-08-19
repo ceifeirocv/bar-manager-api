@@ -28,3 +28,13 @@ To generate database migrations, run the following command after making changes 
 ```bash
 pnpm db:generate
 ```
+
+## Authentication
+
+Authentication is handled by `better-auth`. The configuration can be found in `src/auth.ts`.
+
+Current configuration:
+- Drizzle adapter for PostgreSQL
+- Email and password authentication enabled
+- Username plugin enabled
+- Session expires in 8 hours

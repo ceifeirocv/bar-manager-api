@@ -1,10 +1,14 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express, Request, Response } from "express";
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "./auth";
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello, world!');
+app.all("/api/auth/{*any}", toNodeHandler(auth));
+
+app.get("/", (req: Request, res: Response) => {
+  res.send("Hello, world!");
 });
 
 app.listen(port, () => {
