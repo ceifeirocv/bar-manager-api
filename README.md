@@ -1,6 +1,6 @@
 # Bar Manager API
 
-This is a simple API for managing a bar.
+This is a simple API for managing a bar, built with Express, TypeScript, Drizzle ORM, and PostgreSQL.
 
 ## Getting Started
 
@@ -20,3 +20,11 @@ This is a simple API for managing a bar.
    ```bash
    pnpm start
    ```
+
+## Database Migrations
+
+To generate database migrations, run the following command after making changes to the schema in `src/db/schema.ts`:
+
+```bash
+pnpm db:generate
+```

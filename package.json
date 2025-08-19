@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "ts-node src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "db:generate": "drizzle-kit generate"
   },
   "keywords": [],
   "author": "",
@@ -15,8 +16,15 @@
   "dependencies": {
     "@types/express": "^5.0.3",
     "@types/node": "^24.3.0",
+    "dotenv": "^17.2.1",
+    "drizzle-orm": "^0.44.4",
     "express": "^5.1.0",
+    "pg": "^8.16.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.15.5",
+    "drizzle-kit": "^0.31.4"
   }
 }
