@@ -67,6 +67,12 @@ src/
    pnpm dev
    ```
 
+   The development server uses **nodemon** for automatic restart on file changes. It watches:
+
+   - All files in the `src/` directory
+   - TypeScript (`.ts`), JavaScript (`.js`), and JSON (`.json`) files
+   - Automatically restarts when changes are detected
+
 5. **Production Build:**
    ```bash
    pnpm build
@@ -113,18 +119,18 @@ The application automatically creates an admin user on startup if the required e
 
 ## 🔧 Available Scripts
 
-| Command            | Description                                      |
-| ------------------ | ------------------------------------------------ |
-| `pnpm dev`         | Start development server with hot reload         |
-| `pnpm build`       | Build the TypeScript project                     |
-| `pnpm start`       | Start production server                          |
-| `pnpm db:generate` | Generate database migrations from schema changes |
-| `pnpm db:push`     | Push schema changes directly to database         |
-| `pnpm db:migrate`  | Apply pending migrations to database             |
-| `pnpm db:studio`   | Open Drizzle Studio for database management      |
-| `pnpm db:drop`     | Drop database tables (destructive operation)     |
-| `pnpm db:check`    | Check for schema inconsistencies                 |
-| `pnpm db:up`       | Apply all pending migrations                     |
+| Command            | Description                                          |
+| ------------------ | ---------------------------------------------------- |
+| `pnpm dev`         | Start development server with auto-restart (nodemon) |
+| `pnpm build`       | Build the TypeScript project                         |
+| `pnpm start`       | Start production server                              |
+| `pnpm db:generate` | Generate database migrations from schema changes     |
+| `pnpm db:push`     | Push schema changes directly to database             |
+| `pnpm db:migrate`  | Apply pending migrations to database                 |
+| `pnpm db:studio`   | Open Drizzle Studio for database management          |
+| `pnpm db:drop`     | Drop database tables (destructive operation)         |
+| `pnpm db:check`    | Check for schema inconsistencies                     |
+| `pnpm db:up`       | Apply all pending migrations                         |
 
 ## 📡 API Endpoints
 
@@ -137,6 +143,18 @@ The application automatically creates an admin user on startup if the required e
 - `ALL /api/auth/*` - Better Auth endpoints for authentication
 
 ## 🏗️ Development
+
+### Auto-Restart Development Server
+
+The development server is configured with **nodemon** for automatic restart on file changes:
+
+- **Configuration**: `nodemon.json` in the root directory
+- **Watched directories**: `src/` folder
+- **File types**: `.ts`, `.js`, `.json` files
+- **Ignored files**: Test files (`.spec.ts`, `.test.ts`)
+- **Environment**: Automatically sets `NODE_ENV=development`
+
+Simply run `pnpm dev` and the server will restart automatically whenever you save changes to any watched files.
 
 ### Database Management
 
