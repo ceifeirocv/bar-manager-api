@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 import { users } from "./db/schema";
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 app.all("/api/auth/{*any}", toNodeHandler(auth));
 
