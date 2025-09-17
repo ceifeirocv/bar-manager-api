@@ -2,6 +2,13 @@
 
 A robust REST API for managing a bar, built with modern TypeScript stack including Express, Better Auth, Drizzle ORM, and PostgreSQL.
 
+## 📊 Current Version
+
+**Version**: 1.0.0  
+**Last Updated**: September 2025  
+**Node.js**: v18+  
+**Database**: PostgreSQL (Neon compatible)
+
 ## 🚀 Technology Stack
 
 - **Runtime**: Node.js with TypeScript
@@ -17,9 +24,13 @@ A robust REST API for managing a bar, built with modern TypeScript stack includi
 src/
 ├── auth.ts              # Better Auth configuration
 ├── index.ts             # Main server entry point
-└── db/
-    ├── index.ts         # Database connection setup
-    └── schema.ts        # Drizzle database schema
+├── db/
+│   ├── index.ts         # Database connection setup
+│   └── schema.ts        # Drizzle database schema
+├── lib/
+│   └── utils.ts         # Utility functions
+└── middlewares/
+    └── auth.ts          # Authentication middleware
 ```
 
 ## 🛠️ Getting Started
@@ -27,7 +38,7 @@ src/
 ### Prerequisites
 
 - Node.js (v18 or higher)
-- PostgreSQL database
+- PostgreSQL database (or Neon PostgreSQL)
 - pnpm package manager
 
 ### Installation
@@ -42,13 +53,17 @@ src/
    Create a `.env` file in the root directory with the following variables:
 
    ```env
-   PORT=3000
+   PORT=4000
    DATABASE_URL="postgresql://username:password@localhost:5432/bar_manager"
 
    # Admin user (optional - for automatic admin creation)
    ADMIN_EMAIL="admin@example.com"
    ADMIN_USERNAME="admin"
    ADMIN_PASSWORD="your_secure_password"
+
+   # Better Auth configuration
+   BETTER_AUTH_SECRET="your_secret_key_here"
+   BETTER_AUTH_URL="http://localhost:4000"
    ```
 
 3. **Database Setup:**
@@ -104,9 +119,11 @@ Authentication is powered by **Better Auth** with the following features:
 
 All authentication endpoints are available under `/api/auth/*`:
 
-- `/api/auth/sign-in` - User sign in
-- `/api/auth/sign-up` - User registration
-- `/api/auth/sign-out` - User sign out
+- `POST /api/auth/sign-in` - User sign in (email/password)
+- `POST /api/auth/sign-in/username` - User sign in (username/password)
+- `POST /api/auth/sign-up` - User registration
+- `POST /api/auth/sign-out` - User sign out
+- `GET /api/auth/session` - Get current session
 - And other Better Auth standard endpoints
 
 ### Admin User
@@ -136,11 +153,19 @@ The application automatically creates an admin user on startup if the required e
 
 ### Base Endpoint
 
-- `GET /` - Health check endpoint returning "Hello, world!"
+- `GET /` - Health check endpoint returning server status
 
 ### Authentication
 
 - `ALL /api/auth/*` - Better Auth endpoints for authentication
+
+### Middleware
+
+The API includes custom middleware for:
+
+- Authentication verification
+- CORS handling
+- Request parsing
 
 ## 🏗️ Development
 
@@ -199,9 +224,21 @@ After making changes to the schema in `src/db/schema.ts`, you have several optio
 
 The project structure supports easy extension:
 
-- Add new routes in `src/index.ts`
-- Extend database schema in `src/db/schema.ts`
-- Modify authentication config in `src/auth.ts`
+- **Routes**: Add new routes in `src/index.ts`
+- **Database Schema**: Extend database schema in `src/db/schema.ts`
+- **Authentication**: Modify authentication config in `src/auth.ts`
+- **Middleware**: Add custom middleware in `src/middlewares/`
+- **Utilities**: Add helper functions in `src/lib/utils.ts`
+
+### Project Features
+
+- **CORS Support**: Configured for cross-origin requests
+- **Environment Variables**: Secure configuration with dotenv
+- **Auto-restart**: Development server with nodemon
+- **TypeScript**: Full TypeScript support with type checking
+- **Database Management**: Complete Drizzle ORM integration
+- **Authentication**: Robust auth system with Better Auth
+- **Admin User**: Automatic admin user creation
 
 ## 🐛 Troubleshooting
 
@@ -209,12 +246,37 @@ The project structure supports easy extension:
 
 1. **Database Connection**: Ensure PostgreSQL is running and `DATABASE_URL` is correct
 2. **Admin User Creation**: Check that all admin environment variables are set
-3. **Port Conflicts**: Change the `PORT` environment variable if 3000 is in use
+3. **Port Conflicts**: Default port is 4000, change the `PORT` environment variable if needed
+4. **Better Auth Secret**: Ensure `BETTER_AUTH_SECRET` is set for production
+5. **CORS Issues**: Check that your frontend URL is properly configured in the CORS settings
 
 ### Logs
 
 The server provides helpful console output for:
 
-- Server startup status
+- Server startup status and port information
 - Admin user creation status
 - Database connection issues
+- Authentication attempts
+- API request logging
+
+### Development Tips
+
+- Use `pnpm db:studio` to visually inspect and manage your database
+- Check the terminal output for detailed error messages
+- Use the `api.rest` file for testing API endpoints during development
+- Enable TypeScript strict mode for better code quality
+
+---
+
+## 📄 License
+
+ISC License
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
