@@ -8,6 +8,7 @@ import { createAdminUser } from "./lib/utils";
 
 const app: Express = express();
 const port = process.env.PORT || 4000;
+const app_url = process.env.BETTER_AUTH_URL || `http://localhost:${port}`;
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
   next();
@@ -35,5 +36,5 @@ app.get("/api/protected", requireAuth, (req: Request, res: Response) => {
 
 app.listen(port, () => {
   createAdminUser();
-  console.log(`[server]: Server is running at http://localhost:${port}`);
+  console.log(`[server]: Server is running at ${app_url}`);
 });
