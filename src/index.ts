@@ -23,6 +23,8 @@ app.use(
 );
 app.all("/api/auth/{*any}", toNodeHandler(auth));
 
+app.use(express.json());
+
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, world!");
 });
