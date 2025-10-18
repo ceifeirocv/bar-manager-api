@@ -5,6 +5,7 @@ import { auth } from "./auth";
 import "dotenv/config";
 import { requireAuth } from "./middlewares/auth";
 import { createAdminUser } from "./lib/utils";
+import usersRoutes from "./modules/users/users.routes";
 
 const app: Express = express();
 const port = process.env.PORT || 4000;
@@ -25,6 +26,9 @@ app.use(
 app.all("/api/auth/{*any}", toNodeHandler(auth));
 
 app.use(express.json());
+
+// Routes
+app.use("/api/users", usersRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, world!");
