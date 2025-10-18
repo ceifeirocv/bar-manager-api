@@ -16,7 +16,7 @@ importers:
         version: 24.3.0
       better-auth:
         specifier: ^1.3.7
-        version: 1.3.7(zod@4.0.17)
+        version: 1.3.7(zod@4.1.12)
       cors:
         specifier: ^2.8.5
         version: 2.8.5
@@ -26,6 +26,9 @@ importers:
       drizzle-orm:
         specifier: ^0.44.4
         version: 0.44.4(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.15.5)(better-sqlite3@11.10.0)(kysely@0.28.5)(pg@8.16.3)(prisma@5.22.0)
+      drizzle-zod:
+        specifier: ^0.8.3
+        version: 0.8.3(drizzle-orm@0.44.4(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.15.5)(better-sqlite3@11.10.0)(kysely@0.28.5)(pg@8.16.3)(prisma@5.22.0))(zod@4.1.12)
       express:
         specifier: ^5.1.0
         version: 5.1.0
@@ -38,10 +41,13 @@ importers:
       typescript:
         specifier: ^5.9.2
         version: 5.9.2
+      zod:
+        specifier: ^4.1.12
+        version: 4.1.12
     devDependencies:
       '@better-auth/cli':
         specifier: ^1.3.7
-        version: 1.3.7(@types/pg@8.15.5)(kysely@0.28.5)(pg@8.16.3)(zod@4.0.17)
+        version: 1.3.7(@types/pg@8.15.5)(kysely@0.28.5)(pg@8.16.3)(zod@4.1.12)
       '@types/cors':
         specifier: ^2.8.19
         version: 2.8.19
@@ -1085,6 +1091,12 @@ packages:
       sqlite3:
         optional: true
 
+  drizzle-zod@0.8.3:
+    resolution: {integrity: sha512-66yVOuvGhKJnTdiqj1/Xaaz9/qzOdRJADpDa68enqS6g3t0kpNkwNYjUuaeXgZfO/UWuIM9HIhSlJ6C5ZraMww==}
+    peerDependencies:
+      drizzle-orm: '>=0.36.0'
+      zod: ^3.25.0 || ^4.0.0
+
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
     engines: {node: '>= 0.4'}
@@ -1785,8 +1797,8 @@ packages:
     resolution: {integrity: sha512-CzhO+pFNo8ajLM2d2IW/R93ipy99LWjtwblvC1RsoSUMZgyLbYFr221TnSNT7GjGdYui6P459mw9JH/g/zW2ug==}
     engines: {node: '>=18'}
 
-  zod@4.0.17:
-    resolution: {integrity: sha512-1PHjlYRevNxxdy2JZ8JcNAw7rX8V9P1AKkP+x/xZfxB0K5FYfuV+Ug6P/6NVSR2jHQ+FzDDoDHS04nYUsOIyLQ==}
+  zod@4.1.12:
+    resolution: {integrity: sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==}
 
 snapshots:
 
@@ -2022,7 +2034,7 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
 
-  '@better-auth/cli@1.3.7(@types/pg@8.15.5)(kysely@0.28.5)(pg@8.16.3)(zod@4.0.17)':
+  '@better-auth/cli@1.3.7(@types/pg@8.15.5)(kysely@0.28.5)(pg@8.16.3)(zod@4.1.12)':
     dependencies:
       '@babel/core': 7.28.3
       '@babel/preset-react': 7.27.1(@babel/core@7.28.3)
@@ -2032,7 +2044,7 @@ snapshots:
       '@prisma/client': 5.22.0(prisma@5.22.0)
       '@types/better-sqlite3': 7.6.13
       '@types/prompts': 2.4.9
-      better-auth: 1.3.7(zod@4.0.17)
+      better-auth: 1.3.7(zod@4.1.12)
       better-sqlite3: 11.10.0
       c12: 2.0.4
       chalk: 5.6.0
@@ -2047,7 +2059,7 @@ snapshots:
       semver: 7.7.2
       tinyexec: 0.3.2
       yocto-spinner: 0.1.2
-      zod: 4.0.17
+      zod: 4.1.12
     transitivePeerDependencies:
       - '@aws-sdk/client-rds-data'
       - '@cloudflare/workers-types'
@@ -2471,7 +2483,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  better-auth@1.3.7(zod@4.0.17):
+  better-auth@1.3.7(zod@4.1.12):
     dependencies:
       '@better-auth/utils': 0.2.6
       '@better-fetch/fetch': 1.1.18
@@ -2484,7 +2496,7 @@ snapshots:
       jose: 5.10.0
       kysely: 0.28.5
       nanostores: 0.11.4
-      zod: 4.0.17
+      zod: 4.1.12
 
   better-call@1.0.15:
     dependencies:
@@ -2692,6 +2704,11 @@ snapshots:
       kysely: 0.28.5
       pg: 8.16.3
       prisma: 5.22.0
+
+  drizzle-zod@0.8.3(drizzle-orm@0.44.4(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.15.5)(better-sqlite3@11.10.0)(kysely@0.28.5)(pg@8.16.3)(prisma@5.22.0))(zod@4.1.12):
+    dependencies:
+      drizzle-orm: 0.44.4(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.15.5)(better-sqlite3@11.10.0)(kysely@0.28.5)(pg@8.16.3)(prisma@5.22.0)
+      zod: 4.1.12
 
   dunder-proto@1.0.1:
     dependencies:
@@ -3440,4 +3457,4 @@ snapshots:
 
   yoctocolors@2.1.2: {}
 
-  zod@4.0.17: {}
+  zod@4.1.12: {}
