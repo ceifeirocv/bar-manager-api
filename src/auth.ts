@@ -1,12 +1,12 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { username } from "better-auth/plugins";
+import { admin, username } from "better-auth/plugins";
 import { db } from "./db";
-import * as schema from "./db/schema";
+import * as authSchemas from "./db/schemas/auth";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
-    schema,
+    schema: authSchemas,
     provider: "pg",
     usePlural: true,
   }),
@@ -14,7 +14,7 @@ export const auth = betterAuth({
     enabled: true, // still needed for password flow
     requireEmailVerification: false,
   },
-  plugins: [username()],
+  plugins: [username(), admin()],
   session: {
     expiresIn: 60 * 60 * 8,
     updateAge: 60 * 60 * 24,

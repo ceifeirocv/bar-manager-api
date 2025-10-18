@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { auth } from "../auth";
 import { db } from "../db";
-import { users } from "../db/schema";
+import { users } from "../db/schemas/auth";
 
 export const createAdminUser = async () => {
   const { ADMIN_EMAIL, ADMIN_USERNAME, ADMIN_PASSWORD } = process.env;
@@ -24,7 +24,7 @@ export const createAdminUser = async () => {
       }
 
       // Create admin user if it doesn't exist
-      await auth.api.signUpEmail({
+      const result = await auth.api.signUpEmail({
         body: {
           name: ADMIN_USERNAME,
           username: ADMIN_USERNAME,
@@ -32,6 +32,15 @@ export const createAdminUser = async () => {
           email: ADMIN_EMAIL,
         },
       });
+
+      // Update user role to admin after creation
+      if (result && result.user) {
+        await db
+          .update(users)
+          .set({ role: "admin" })
+          .where(eq(users.id, result.user.id));
+      }
+
       console.log("Admin user created successfully");
     } catch (error) {
       console.log(
