@@ -9,7 +9,9 @@ import { errorResponse } from "./lib/response";
 
 const app: Express = express();
 const port = process.env.PORT || 4000;
-const app_url = process.env.BETTER_AUTH_URL || `http://localhost:${port}`;
+console.log({ port });
+
+const app_url = `http://localhost:${port}`;
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
   next();
