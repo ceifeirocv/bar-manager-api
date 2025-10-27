@@ -1,11 +1,11 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./auth";
 import "dotenv/config";
-import { requireAuth } from "./middlewares/auth";
 import { createAdminUser } from "./lib/utils";
 import usersRoutes from "./modules/users/users.routes";
+import { errorResponse } from "./lib/response";
 
 const app: Express = express();
 const port = process.env.PORT || 4000;
@@ -15,7 +15,11 @@ app.use((req, res, next) => {
   next();
 });
 
-const allowedOrigin = process.env.CORS_ORIGIN || "http://localhost:3000";
+const allowedOrigin = process.env.CORS_ORIGIN?.split(",") || [
+  "http://localhost:5173",
+];
+
+console.log("CORS allowed origins:", allowedOrigin);
 app.use(
   cors({
     origin: allowedOrigin, // Configurable via environment variable
@@ -30,12 +34,33 @@ app.use(express.json());
 // Routes
 app.use("/api/users", usersRoutes);
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello, world!");
+// 404 handler - must be after all routes
+app.use((req: Request, res: Response) => {
+  errorResponse(
+    res,
+    "Route not found",
+    "NOT_FOUND",
+    `Cannot ${req.method} ${req.originalUrl}`,
+    404
+  );
 });
 
-app.get("/api/protected", requireAuth, (req: Request, res: Response) => {
-  res.send("This is a protected route");
+// Global error handler - must be last
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error("Unhandled error:", err);
+
+  // Check if response has already been sent
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  errorResponse(
+    res,
+    "Internal Server Error",
+    "INTERNAL_SERVER_ERROR",
+    err.message || "An unexpected error occurred",
+    500
+  );
 });
 
 app.listen(port, () => {

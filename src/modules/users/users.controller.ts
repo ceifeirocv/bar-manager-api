@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
-import { db } from "../../db";
 import { users } from "../../db/schemas/auth";
-import { eq } from "drizzle-orm";
 import { auth } from "../../auth";
 import { partialUpdateUserSchema } from "./users.validator";
 import { errorResponse, successResponse } from "../../lib/response";
+import { fromNodeHeaders } from "better-auth/node";
 
 type UpdateUserData = Partial<typeof users.$inferInsert>;
 
@@ -44,32 +43,20 @@ export const updateUser = async (
       ...allowedUpdates
     } = updateData;
 
-    // Check if user exists
-    const existingUser = await db.query.users.findFirst({
-      where: eq(users.id, userId),
+    const updatedUserTest = await auth.api.updateUser({
+      body: {
+        ...allowedUpdates,
+        image: allowedUpdates.image ?? undefined,
+      },
+      headers: fromNodeHeaders(req.headers),
+      asResponse: true,
     });
 
-    if (!existingUser) {
-      return errorResponse(
-        res,
-        "User not found",
-        "USER_NOT_FOUND",
-        "The user you are trying to update does not exist.",
-        404
-      );
-    }
+    console.log({ updatedUserTest });
 
-    // Update the user
-    const [updatedUser] = await db
-      .update(users)
-      .set({
-        ...allowedUpdates,
-        updatedAt: new Date(),
-      })
-      .where(eq(users.id, userId))
-      .returning();
-
-    return successResponse(res, "User updated successfully", updatedUser);
+    return successResponse(res, "User updated successfully", {
+      ...allowedUpdates,
+    });
   } catch (error) {
     console.error("Error updating user:", error);
     return errorResponse(
